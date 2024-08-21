@@ -1,15 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 23 11:08:12 2017
-
-Multiple linear regression
-Import dataset and encode categorical variables, fit multiple linear regression
-find best model using backward elimination
-
-@author: Ilaria
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
