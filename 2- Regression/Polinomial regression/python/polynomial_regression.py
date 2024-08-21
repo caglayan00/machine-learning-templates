@@ -1,15 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 27 13:50:26 2017
-
-Polynomial regression
-Use both a linear and a poliinomial regression to show the different results
-
-
-@author: Ilaria
-"""
-
 # Data Preprocessing Template
 
 # Importing the libraries
@@ -19,58 +7,50 @@ import pandas as pd
 
 # Importing the dataset
 dataset = pd.read_csv('Position_Salaries.csv')
-X = dataset.iloc[:, 1:2].values
-y = dataset.iloc[:, 2].values
+X = dataset.iloc[:, 1:2].values  # Features (reshape to 2D array)
+y = dataset.iloc[:, 2].values    # Target variable
 
-#we don't apply training and test set because we don't have enough data
-# Splitting the dataset into the Training set and Test set
-"""from sklearn.cross_validation import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1/3, random_state = 0)
-"""
+# No need to split the dataset due to small size
+# Splitting the dataset into Training set and Test set is not applied
 
-#fitting linear regression
+# Fitting Linear Regression
 from sklearn.linear_model import LinearRegression
 lin_reg = LinearRegression()
-lin_reg.fit(X,y)
+lin_reg.fit(X, y)
 
-#fitting polinomial regression 
+# Fitting Polynomial Regression
 from sklearn.preprocessing import PolynomialFeatures
-poly_reg =  PolynomialFeatures(degree = 4)
-X_poli = poly_reg.fit_transform(X)
+poly_reg = PolynomialFeatures(degree=4)
+X_poly = poly_reg.fit_transform(X)
 lin_reg_2 = LinearRegression()
-lin_reg_2.fit(X_poli, y)
+lin_reg_2.fit(X_poly, y)
 
-#visualize linear regression results
-plt.scatter(X, y, color= 'red')
-plt.plot(X, lin_reg.predict(X), color = 'blue')
-plt.title('Reality vs Bluff(linear regression)')
-plt.xlabel('Position label')
+# Visualizing Linear Regression Results
+plt.figure(figsize=(14, 6))
+
+plt.subplot(1, 2, 1)
+plt.scatter(X, y, color='red')
+plt.plot(X, lin_reg.predict(X), color='blue')
+plt.title('Linear Regression')
+plt.xlabel('Position Level')
 plt.ylabel('Salary')
+
+# Visualizing Polynomial Regression Results
+plt.subplot(1, 2, 2)
+X_grid = np.arange(min(X), max(X), 0.01)  # Smoother curve
+X_grid = X_grid.reshape((len(X_grid), 1))  # Reshape for prediction
+plt.scatter(X, y, color='red')
+plt.plot(X_grid, lin_reg_2.predict(poly_reg.transform(X_grid)), color='blue')
+plt.title('Polynomial Regression')
+plt.xlabel('Position Level')
+plt.ylabel('Salary')
+
 plt.show()
 
+# Predicting a new result with Linear Regression
+lin_reg_prediction = lin_reg.predict([[6.5]])
+print(f'Linear Regression Prediction for 6.5: {lin_reg_prediction[0]}')
 
-#visualize polinomial regression results
-plt.scatter(X, y, color= 'red')
-plt.plot(X, lin_reg_2.predict(poly_reg.fit_transform(X)), color = 'blue')
-plt.title('Reality vs Bluff(polynomial regression)')
-plt.xlabel('Position label')
-plt.ylabel('Salary')
-plt.show()
-
-
-#Predicting a new result with Linear Regression
-lin_reg.predict(6.5)
-
-
-#Predicting a new result with Polinomial regression
-lin_reg_2.predict(poly_reg.fit_transform(6.5))
-
-
-
-
-
-
-
-
-
-
+# Predicting a new result with Polynomial Regression
+poly_reg_prediction = lin_reg_2.predict(poly_reg.transform([[6.5]]))
+print(f'Polynomial Regression Prediction for 6.5: {poly_reg_prediction[0]}')
