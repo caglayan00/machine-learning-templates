@@ -1,18 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar 10 16:49:42 2017
-
-@author: Ilaria
-
-SIMPLE LINEAR REGRESSION
-Use the data preprocessing template from part 1, apply 
-linear regression and fit linear model on the training set
-
-"""
-
-# Data Preprocessing Template
-
 # Importing the libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,42 +9,30 @@ X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, 1].values
 
 # Splitting the dataset into the Training set and Test set
-from sklearn.cross_validation import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1/3, random_state = 0)
+from sklearn.model_selection import train_test_split  # Updated import
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1/3, random_state=0)
 
-#feature scalining is done already by the library
-# Feature Scaling
-"""from sklearn.preprocessing import StandardScaler
-sc_X = StandardScaler()
-X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.transform(X_test)
-sc_y = StandardScaler()
-y_train = sc_y.fit_transform(y_train)"""
-
-
-#fitting linear model on the training set
+# Feature scaling is usually not needed for linear regression
+# Fitting the linear regression model to the training set
 from sklearn.linear_model import LinearRegression
-regressor = LinearRegression()    
-regressor.fit(X_train, y_train)  
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
 
-#predecting the test result
-#vector of predictions of y 
-y_pred = regressor.predict(X_test)       
+# Predicting the test set results
+y_pred = regressor.predict(X_test)
 
-#visualizing the training set results
-plt.scatter(X_train, y_train, color = 'red')
-plt.plot(X_train, regressor.predict(X_train), color = 'blue')
-plt.title('Salary vs Experience (trainings set)')
-plt.xlabel ('Year of experience')
-plt.ylabel ('Salary')
-plt.show()   
+# Visualizing the training set results
+plt.scatter(X_train, y_train, color='red')
+plt.plot(X_train, regressor.predict(X_train), color='blue')
+plt.title('Salary vs Experience (Training set)')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()
 
-#visualizing the test set results
-plt.scatter(X_test, y_test, color = 'red')
-plt.plot(X_train, regressor.predict(X_train), color = 'blue')
-plt.title('Salary vs Experience (test set)')
-plt.xlabel ('Year of experience')
-plt.ylabel ('Salary')
-plt.show()        
-                        
-                            
+# Visualizing the test set results
+plt.scatter(X_test, y_test, color='red')
+plt.plot(X_test, y_pred, color='blue')  # Plot the regression line for the test set
+plt.title('Salary vs Experience (Test set)')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()
