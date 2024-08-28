@@ -29,7 +29,7 @@ plt.show()
 
 #fitting hierarchical clustering to mall dataset
 from sklearn.cluster import AgglomerativeClustering
-hc = AgglomerativeClustering(n_clusters = 5, affinity = 'euclidean', linkage = 'ward')
+hc = AgglomerativeClustering(n_clusters = 5, metric = 'euclidean', linkage = 'ward')
 y_hc = hc.fit_predict(X)
 
 #visualize the cluster - just to plot clusters in 2 dimensions
